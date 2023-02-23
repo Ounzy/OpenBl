@@ -17,7 +17,6 @@ import retrofit2.Retrofit
 import java.time.LocalDate
 import java.util.Calendar
 
-
 class TableModel : ViewModel() {
     private val jsonFactory = Json {
         ignoreUnknownKeys = true
@@ -49,9 +48,10 @@ class TableModel : ViewModel() {
         }
     }
 
-    suspend fun fetchMatchData(): List<MatchDataItem> {
+    suspend fun fetchMatchData(day: Int?): List<MatchDataItem> {
         return try {
-            api.getMatchDay()
+            if (day == null) api.getMatchDay()
+            else api.getSeasonMatchDataDay(season, day)
         } catch (e: Exception) {
             Log.e("error fetching data", e.toString())
             return emptyList()

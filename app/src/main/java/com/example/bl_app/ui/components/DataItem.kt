@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import coil.compose.AsyncImage
 import com.example.bl_app.objects.MatchDataItem
 
 @Composable
@@ -20,7 +21,6 @@ fun DataItem(data: MatchDataItem) {
     var showDetails by remember {
         mutableStateOf(false)
     }
-
 
     ElevatedCard(
         modifier = Modifier
@@ -93,26 +93,117 @@ fun DetailsScreen(
     data: MatchDataItem,
     onDismissRequest: () -> Unit
 ) {
-    Dialog(
-        onDismissRequest = onDismissRequest,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
-    ) {
-        Scaffold(
-            topBar = {
-                TopAppBar(
-                    title = {
-                        Text("Details")
-                    },
-                    navigationIcon = {
-                        IconButton(onClick = onDismissRequest) {
-                            Icon(imageVector = Icons.Default.ArrowBack, contentDescription = null)
+    if (data.matchIsFinished) {
+        Dialog(
+            onDismissRequest = onDismissRequest,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text("Details")
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = onDismissRequest) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    )
+                }
+            ) { pV ->
+                Box(modifier = Modifier.padding(pV)) {
+                    Text(
+                        data.team1.teamName + " vs " + data.team2.teamName,
+                        color = MaterialTheme.colorScheme.primary,
+                        fontSize = 30.sp
+                    )
+                }
+            }
+        }
+    } else {
+        Dialog(
+            onDismissRequest = onDismissRequest,
+            properties = DialogProperties(usePlatformDefaultWidth = false)
+        ) {
+            Scaffold(
+                topBar = {
+                    TopAppBar(
+                        title = {
+                            Text("Details")
+                        },
+                        navigationIcon = {
+                            IconButton(onClick = onDismissRequest) {
+                                Icon(
+                                    imageVector = Icons.Default.ArrowBack,
+                                    contentDescription = null
+                                )
+                            }
+                        }
+                    )
+                }
+            ) { pV ->
+                Box(modifier = Modifier.padding(pV)) {
+                    Column(
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Text(
+                            data.team1.teamName + " vs " + data.team2.teamName,
+                            color = MaterialTheme.colorScheme.primary,
+                            fontSize = 15.sp
+                        )
+                        Row(
+                            horizontalArrangement = Arrangement.Center,
+                            modifier = Modifier.fillMaxWidth()
+                        ) {
+
+                            AsyncImage(
+                                model = rewriteIconUrl(data.team1.teamIconUrl),
+                                null,
+                                modifier = Modifier
+                                    .size(175.dp)
+                            )
+                            AsyncImage(
+                                model = rewriteIconUrl((data.team2.teamIconUrl)),
+                                null,
+                                modifier = Modifier
+                                    .size(175.dp)
+                            )
+                        }
+                        ElevatedCard(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(10.dp, 20.dp)
+                        ) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Text(data.group.groupName,
+                                fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(text = "Timezone: " + data.timeZoneID)
+                                Text(
+                                    "Date: " + data.matchDateTime,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+
+                                Text(
+                                    "UTC: " + data.matchDateTimeUTC,
+                                    fontSize = 20.sp,
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
                         }
                     }
-                )
-            }
-        ) { pV ->
-            Box(modifier = Modifier.padding(pV)) {
-                Text(data.team1.teamName + " vs " + data.team2.teamName)
+                }
             }
         }
     }

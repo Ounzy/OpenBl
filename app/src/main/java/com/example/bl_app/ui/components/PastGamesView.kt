@@ -13,15 +13,17 @@ import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
 @Composable
-fun PastGamesView() {
+fun PastGamesView(day: Int? = null) {
     val viewModel: TableModel = viewModel()
     val matchData = remember {
         mutableStateListOf<MatchDataItem>()
     }
 
-    LaunchedEffect(Unit) {
+    LaunchedEffect(day) {
         withContext(Dispatchers.IO) {
-            matchData.addAll(viewModel.fetchMatchData())
+            val items = viewModel.fetchMatchData(day)
+            matchData.clear()
+            matchData.addAll(items)
         }
     }
 
