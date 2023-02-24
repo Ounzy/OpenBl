@@ -12,6 +12,8 @@ import com.example.bl_app.objects.MatchDataItem
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
+var currentMatchDay: String = ""
+
 @Composable
 fun PastGamesView(day: Int? = null) {
     val viewModel: TableModel = viewModel()
@@ -26,6 +28,8 @@ fun PastGamesView(day: Int? = null) {
             matchData.addAll(items)
         }
     }
+
+
 
     LazyColumn(
         modifier = Modifier
