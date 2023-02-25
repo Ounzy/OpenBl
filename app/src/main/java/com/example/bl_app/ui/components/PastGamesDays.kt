@@ -35,7 +35,7 @@ fun PastGamesDays() {
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
             val resp = viewModel.fetchMatchData(day = null)
-            val day =  resp.firstOrNull()?.group?.groupOrderID ?: return@withContext
+            val day = resp.firstOrNull()?.group?.groupOrderID ?: return@withContext
             selectedEntry = day.toString()
         }
     }

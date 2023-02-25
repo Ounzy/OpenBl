@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 data class Table(
     val teamInfoId: Int,
     val teamName: String,
-    val shortName: String,
+    val shortName: String?,
     val teamIconUrl: String,
     val points: Int,
     val opponentGoals: Int,

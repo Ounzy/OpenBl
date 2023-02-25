@@ -3,10 +3,9 @@ package com.example.bl_app
 import android.content.Context
 import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
-import android.net.Network
 import android.os.Build
 import android.os.Bundle
-import android.util.Log
+import android.widget.Button
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -15,8 +14,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import com.example.bl_app.ui.components.PastGamesView
+import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.unit.sp
 import com.example.bl_app.ui.components.PastGamesDays
 import com.example.bl_app.ui.components.TableView
 import com.example.bl_app.ui.theme.BLAppTheme
@@ -24,14 +25,14 @@ import com.example.bl_app.ui.theme.BLAppTheme
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        
+
         setContent {
             BLAppTheme {
                 var connected by remember {
                     mutableStateOf(isDeviceOnline(this))
-                } 
-                
-               
+                }
+
+
                 if (connected) {
                     var selected by remember {
                         mutableStateOf(0)
@@ -67,15 +68,35 @@ class MainActivity : ComponentActivity() {
                         }
                     }
                 } else {
-                    Text(text = "NOT CONNECTED")
-                    Button(onClick = { connected = isDeviceOnline(this) }) {
-                        Text(text = "RETRY")
+                    Surface() {
+                        Column(
+                            Modifier.fillMaxSize(),
+                            horizontalAlignment = Alignment.CenterHorizontally,
+                            verticalArrangement = Arrangement.SpaceBetween
+                        ) {
+                            Text(
+                                text = "NOT CONNECTED",
+                                fontSize = 30.sp,
+                                color = MaterialTheme.colorScheme.error
+                            )
+                            ElevatedButton(
+                                onClick = { connected = isDeviceOnline(this@MainActivity) },
+                                colors = ButtonDefaults.buttonColors(MaterialTheme.colorScheme.scrim)
+                            ) {
+                                Text(
+                                    text = "RETRY",
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                            }
+                        }
                     }
+
                 }
             }
         }
     }
 }
+
 
 private fun isDeviceOnline(context: Context): Boolean {
     val connManager = context.getSystemService(CONNECTIVITY_SERVICE) as ConnectivityManager

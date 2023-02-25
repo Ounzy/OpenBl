@@ -39,9 +39,9 @@ class TableModel : ViewModel() {
         .build()
         .create(ApiInterface::class.java)
 
-    suspend fun fetchTable(): List<Table> {
+    suspend fun fetchTable(league: String?): List<Table> {
         return try {
-            api.gettable(season)
+            api.gettable(season, league)
         } catch (e: Exception) {
             Log.e("error fetching table", e.toString())
             return emptyList()

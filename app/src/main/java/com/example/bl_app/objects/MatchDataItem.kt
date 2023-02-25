@@ -8,7 +8,7 @@ data class MatchDataItem(
     val group: Group,
     val lastUpdateDateTime: String,
     val leagueId: Int,
-    val leagueName: String,
+    val leagueName: String?,
     val leagueSeason: Int,
     val leagueShortcut: String,
     val matchDateTime: String,

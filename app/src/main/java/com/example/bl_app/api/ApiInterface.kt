@@ -10,9 +10,10 @@ import retrofit2.http.Path
 
 interface ApiInterface {
 
-    @GET("getbltable/bl1/{season}")
+    @GET("getbltable/{league}/{season}")
     suspend fun gettable(
-        @Path("season") season: Int? = null
+        @Path("season") season: Int? = null,
+        @Path("league") league: String? = null
     ): List<Table>
 
     @GET("getmatchdata/bl1")

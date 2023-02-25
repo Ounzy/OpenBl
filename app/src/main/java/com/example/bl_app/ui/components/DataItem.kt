@@ -8,13 +8,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import coil.compose.AsyncImage
+import coil.decode.SvgDecoder
+import coil.request.ImageRequest
 import com.example.bl_app.objects.MatchDataItem
+import com.example.bl_app.ui.components.Tables.rewriteIconUrl
 
 @Composable
 fun DataItem(data: MatchDataItem) {
@@ -159,18 +163,14 @@ fun DetailsScreen(
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-
-                            AsyncImage(
-                                model = rewriteIconUrl(data.team1.teamIconUrl),
-                                null,
-                                modifier = Modifier
-                                    .size(175.dp)
+                            RewrittenImage(
+                                modifier = Modifier.size(175.dp),
+                                url = data.team1.teamIconUrl
                             )
-                            AsyncImage(
-                                model = rewriteIconUrl((data.team2.teamIconUrl)),
-                                null,
-                                modifier = Modifier
-                                    .size(175.dp)
+
+                            RewrittenImage(
+                                modifier = Modifier.size(175.dp),
+                                url = data.team2.teamIconUrl
                             )
                         }
                         ElevatedCard(
@@ -184,7 +184,7 @@ fun DetailsScreen(
                                     .padding(0.dp, 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Text(data.group.groupName,
+                                Text(data.group.groupOrderID.toString() + ". match day",
                                 fontSize = 20.sp,
                                     color = MaterialTheme.colorScheme.primary
                                 )
@@ -208,3 +208,7 @@ fun DetailsScreen(
         }
     }
 }
+
+
+
+
