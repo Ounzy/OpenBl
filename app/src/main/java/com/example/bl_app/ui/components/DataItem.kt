@@ -1,5 +1,6 @@
 package com.example.bl_app.ui.components
 
+
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
 import androidx.compose.material.icons.Icons
@@ -8,20 +9,17 @@ import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import coil.compose.AsyncImage
-import coil.decode.SvgDecoder
-import coil.request.ImageRequest
 import com.example.bl_app.objects.MatchDataItem
-import com.example.bl_app.ui.components.Tables.rewriteIconUrl
+
 
 @Composable
 fun DataItem(data: MatchDataItem) {
+
     var showDetails by remember {
         mutableStateOf(false)
     }

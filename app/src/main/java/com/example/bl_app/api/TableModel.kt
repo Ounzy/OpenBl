@@ -48,31 +48,21 @@ class TableModel : ViewModel() {
         }
     }
 
-    suspend fun fetchMatchData(day: Int?): List<MatchDataItem> {
+    suspend fun fetchMatchData(day: Int?, league: String?): List<MatchDataItem> {
         return try {
-            if (day == null) api.getMatchDay()
-            else api.getSeasonMatchDataDay(season, day)
+            if (day == null) api.getMatchDay(league)
+            else api.getSeasonMatchDataDay(season, day, league)
         } catch (e: Exception) {
             Log.e("error fetching data", e.toString())
             return emptyList()
         }
     }
 
-    suspend fun fetchSeasonMatchData(): List<MatchDataItem> {
-        val data =  try {
-            api.getSeasonMatchData(season)
-        } catch (e: Exception) {
-            Log.e("error fetching season", e.toString())
-            return emptyList()
-        }
-        return data
-    }
-
-    suspend fun fetchLastSeasonMatchData(): List<MatchDataItem> {
+    suspend fun getMatchDayBl3(): List<MatchDataItem> {
         return try {
-            api.getLastSeasonMatchData(season - 1)
+            api.getMatchDayBl3()
         } catch (e: Exception) {
-            Log.e("error fetching season2", e.toString())
+            Log.e("error fetching bl3 day", e.toString())
             return emptyList()
         }
     }

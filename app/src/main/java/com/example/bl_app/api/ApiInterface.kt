@@ -16,22 +16,19 @@ interface ApiInterface {
         @Path("league") league: String? = null
     ): List<Table>
 
-    @GET("getmatchdata/bl1")
-    suspend fun getMatchDay(): List<MatchDataItem>
-
-    @GET("getmatchdata/bl1/{season}")
-    suspend fun getSeasonMatchData(
-        @Path("season") season: Int? = null
+    @GET("getmatchdata/{league}")
+    suspend fun getMatchDay(
+        @Path("league") league: String? = null
     ): List<MatchDataItem>
 
-    @GET("getmatchdata/bl1/{season}/{day}")
+    @GET("getmatchdata/{league}/{season}/{day}")
     suspend fun getSeasonMatchDataDay(
         @Path("season") season: Int? = null,
-        @Path("day") day: Int? = null
+        @Path("day") day: Int? = null,
+        @Path("league") league: String? = null
     ): List<MatchDataItem>
 
-    @GET("getmatchdata/bl1/{season}")
-    suspend fun getLastSeasonMatchData(
-        @Path("season") season: Int? = null
-    ): List<MatchDataItem>
+
+    @GET("getmatchdata/bl3")
+    suspend fun getMatchDayBl3(): List<MatchDataItem>
 }

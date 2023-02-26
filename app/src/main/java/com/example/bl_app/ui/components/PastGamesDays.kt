@@ -15,8 +15,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import com.example.bl_app.api.TableModel
-import com.example.bl_app.ui.components.seasons.GamesOfLastSeason
-import com.example.bl_app.ui.components.seasons.GamesOfThisSeason
+import com.example.bl_app.ui.components.seasons.PastGamesView
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
 
@@ -34,7 +33,7 @@ fun PastGamesDays() {
     }
     LaunchedEffect(Unit) {
         withContext(Dispatchers.IO) {
-            val resp = viewModel.fetchMatchData(day = null)
+            val resp = viewModel.fetchMatchData(day = null, league = "bl1")
             val day = resp.firstOrNull()?.group?.groupOrderID ?: return@withContext
             selectedEntry = day.toString()
         }
@@ -56,7 +55,7 @@ fun PastGamesDays() {
                 ElevatedFilterChip(
                     selected = selectedFilter == 0,
                     onClick = { selectedFilter = 0 },
-                    label = { Text("Match day") },
+                    label = { Text("1.Bundesliga") },
                     leadingIcon = {
                         if (selectedFilter == 0) Icon(Icons.Default.Check, null)
                     }
@@ -66,7 +65,7 @@ fun PastGamesDays() {
                 ElevatedFilterChip(
                     selected = selectedFilter == 1,
                     onClick = { selectedFilter = 1 },
-                    label = { Text("This season") },
+                    label = { Text("2.Bundesliga") },
                     leadingIcon = {
                         if (selectedFilter == 1) Icon(Icons.Default.Check, null)
                     }
@@ -75,7 +74,7 @@ fun PastGamesDays() {
             item {
                 ElevatedFilterChip(
                     selected = selectedFilter == 2, onClick = { selectedFilter = 2 },
-                    label = { Text(text = "Last season") },
+                    label = { Text(text = "3.Bundesliga") },
                     leadingIcon = {
                         if (selectedFilter == 2) Icon(Icons.Default.Check, null)
                     }
@@ -83,15 +82,15 @@ fun PastGamesDays() {
             }
         }
         when (selectedFilter) {
-            0 -> PastGamesView(selectedEntry?.toIntOrNull())
-            1 -> GamesOfThisSeason()
-            2 -> GamesOfLastSeason()
+            0 -> PastGamesView(selectedEntry?.toIntOrNull(), "bl1")
+            1 -> PastGamesView(selectedEntry?.toIntOrNull(), "bl2")
+            2 -> PastGamesView(selectedEntry?.toIntOrNull(), "bl3")
         }
     }
 }
 
 
-@OptIn(ExperimentalMaterial3Api::class)
+
 @Composable
 fun SampleSpinner(
     list: List<String>,
