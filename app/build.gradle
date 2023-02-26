@@ -5,11 +5,11 @@ plugins {
 }
 
 android {
-    namespace 'com.example.bl_app'
+    namespace 'com.Ounzy.OpenBl'
     compileSdk 33
 
     defaultConfig {
-        applicationId "com.example.bl_app"
+        applicationId "com.Ounzy.OpenBl"
         minSdk 21
         targetSdk 33
         versionCode 1
@@ -23,8 +23,11 @@ android {
 
     buildTypes {
         release {
-            minifyEnabled false
+            minifyEnabled true
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+        debug {
+            applicationIdSuffix '.debug'
         }
     }
     compileOptions {
@@ -61,7 +64,7 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation "org.jetbrains.kotlinx:kotlinx-serialization-json:1.4.1"
     implementation 'com.jakewharton.retrofit:retrofit2-kotlinx-serialization-converter:0.8.0'
-    implementation "io.coil-kt:coil-compose:2.0.0-rc01"
+    implementation "io.coil-kt:coil-compose:2.2.2"
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     implementation "io.coil-kt:coil-compose:2.2.2"
     implementation "io.coil-kt:coil-svg:2.2.2"
