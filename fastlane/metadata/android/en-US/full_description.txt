@@ -1,0 +1,3 @@
+Android App showcasing tables and results of the 1./2./3.Bundesliga (german soccer leagues).
+Therefore it uses the <a href="https://github.com/OpenLigaDB/OpenLigaDB-Samples">OpenLigaDb Api</a>.
+You can see results of certain match days and information about any popular German soccer clubs.
