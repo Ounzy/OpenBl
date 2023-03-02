@@ -8,9 +8,9 @@ Therefore it uses the [OpenLigaDb Api](https://github.com/OpenLigaDB/OpenLigaDB-
 
 ## Screenshots
 <div style="display: flex">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_Table.png" width="33%">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2_ClubView.png" width="33%">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_MatchDay.png" width="33%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_Table.png" width="32%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2_ClubView.png" width="32%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_MatchDay.png" width="32%">
 </div>
 
 ## License
