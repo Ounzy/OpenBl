@@ -118,13 +118,122 @@ fun DetailsScreen(
                 }
             ) { pV ->
                 Box(modifier = Modifier.padding(pV)) {
-                    Text(
-                        data.team1.teamName + " vs " + data.team2.teamName,
-                        color = MaterialTheme.colorScheme.primary,
-                        fontSize = 30.sp
-                    )
+                    Column(
+                        Modifier.fillMaxSize(),
+                        horizontalAlignment = Alignment.CenterHorizontally
+                    ) {
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                Modifier.weight(1f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    data.team1.teamName,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                            Row(
+                                Modifier.weight(0.5f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    "vs",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                            Row(
+                                Modifier.weight(1f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    data.team2.teamName,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
+                        Text(text = data.matchDateTime)
+                        Row() {
+                            RewrittenImage(
+                                modifier = Modifier.size(175.dp),
+                                url = data.team1.teamIconUrl
+                            )
+                            RewrittenImage(
+                                modifier = Modifier.size(175.dp),
+                                url = data.team2.teamIconUrl
+                            )
+                        }
+                        ElevatedCard(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp)
+                        ) {
+                            Column(
+                                Modifier.fillMaxWidth(),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                            ) {
+                                Row(
+                                    Modifier.fillMaxWidth(),
+                                    horizontalArrangement = Arrangement.SpaceEvenly
+                                ){
+
+                                    Text(
+                                        text = data.matchResults.firstOrNull()?.pointsTeam1.toString(),
+                                        fontSize = 50.sp,
+                                    )
+
+                                    Text(
+                                        text = ":",
+                                        fontSize = 50.sp
+                                    )
+
+                                    Text(
+                                        text = data.matchResults.firstOrNull()?.pointsTeam2.toString(),
+                                        fontSize = 50.sp
+                                    )
+                                }
+
+
+                            }
+                        }
+
+                        Spacer(Modifier.height(10.dp))
+
+                        ElevatedCard(
+                            Modifier
+                                .fillMaxWidth()
+                                .padding(5.dp, 10.dp)
+                        ) {
+                            Column(
+                                Modifier
+                                    .fillMaxWidth()
+                                    .padding(0.dp, 10.dp),
+                                horizontalAlignment = Alignment.CenterHorizontally
+                                ) {
+                                Text(
+                                    text = "Goals",
+                                    fontSize = 30.sp
+                                )
+                                data.goals.forEach() { goal ->
+                                    DisplayGoal(goal)
+                                }
+                            }
+                        }
+                    }
                 }
             }
+
         }
     } else {
         Dialog(
@@ -150,13 +259,50 @@ fun DetailsScreen(
             ) { pV ->
                 Box(modifier = Modifier.padding(pV)) {
                     Column(
+                        Modifier.fillMaxWidth(),
                         horizontalAlignment = Alignment.CenterHorizontally
                     ) {
-                        Text(
-                            data.team1.teamName + " vs " + data.team2.teamName,
-                            color = MaterialTheme.colorScheme.primary,
-                            fontSize = 15.sp
-                        )
+                        Row(
+                            Modifier.fillMaxWidth(),
+                            horizontalArrangement = Arrangement.Center,
+                            verticalAlignment = Alignment.CenterVertically
+                        ) {
+                            Row(
+                                Modifier.weight(1f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    data.team1.teamName,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                            Row(
+                                Modifier.weight(0.5f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    "vs",
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+
+                            Row(
+                                Modifier.weight(1f),
+                                horizontalArrangement = Arrangement.Center
+                            ) {
+                                Text(
+                                    data.team2.teamName,
+                                    color = MaterialTheme.colorScheme.primary,
+                                    fontSize = 20.sp,
+                                    textAlign = TextAlign.Center
+                                )
+                            }
+                        }
                         Row(
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.fillMaxWidth()
@@ -165,7 +311,6 @@ fun DetailsScreen(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team1.teamIconUrl
                             )
-
                             RewrittenImage(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team2.teamIconUrl
@@ -182,8 +327,9 @@ fun DetailsScreen(
                                     .padding(0.dp, 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                             ) {
-                                Text(data.group.groupOrderID.toString() + ". match day",
-                                fontSize = 20.sp,
+                                Text(
+                                    data.group.groupOrderID.toString() + ". match day",
+                                    fontSize = 20.sp,
                                     color = MaterialTheme.colorScheme.primary
                                 )
                                 Text(text = "Timezone: " + data.timeZoneID)
@@ -206,6 +352,7 @@ fun DetailsScreen(
         }
     }
 }
+
 
 
 
