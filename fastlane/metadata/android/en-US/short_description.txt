@@ -1,1 +1,1 @@
-App showcasing the latest Bundesliga tables & results using Material You Design
+Showcasing the latest Bundesliga tables & results using Material You Design
