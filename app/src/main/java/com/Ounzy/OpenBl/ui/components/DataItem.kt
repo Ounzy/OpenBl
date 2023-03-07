@@ -3,6 +3,8 @@ package com.Ounzy.OpenBl.ui.components
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowBack
 import androidx.compose.material3.*
@@ -215,19 +217,23 @@ fun DetailsScreen(
                                 .fillMaxWidth()
                                 .padding(5.dp, 10.dp)
                         ) {
-                            Column(
-                                Modifier
-                                    .fillMaxWidth()
-                                    .padding(0.dp, 10.dp),
+                            LazyColumn(
+                                    Modifier
+                                        .fillMaxWidth()
+                                        .padding(0.dp, 10.dp),
                                 horizontalAlignment = Alignment.CenterHorizontally
                                 ) {
-                                Text(
+                                item {  Text(
                                     text = "Goals",
                                     fontSize = 30.sp
                                 )
-                                data.goals.forEach() { goal ->
-                                    DisplayGoal(goal)
                                 }
+                                item {
+                                    data.goals.forEach() { goal ->
+                                        DisplayGoal(goal)
+                                    }
+                                }
+
                             }
                         }
                     }
