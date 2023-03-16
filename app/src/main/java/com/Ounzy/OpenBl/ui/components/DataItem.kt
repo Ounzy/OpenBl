@@ -16,6 +16,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.Ounzy.OpenBl.objects.Goal
 import com.Ounzy.OpenBl.objects.MatchDataItem
 
 
@@ -228,8 +229,9 @@ fun DetailsScreen(
                                     fontSize = 30.sp
                                 )
                                 }
+                                val goals: List<Goal> = data.goals.sortedBy { it.goalID }
                                 item {
-                                    data.goals.forEach() { goal ->
+                                    goals.forEach() { goal ->
                                         DisplayGoal(goal)
                                     }
                                 }
