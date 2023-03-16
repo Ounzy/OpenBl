@@ -6,6 +6,8 @@
 Android App showcasing the 1./2./3.Bundesliga (german soccer leagues) tables and results.    
 Therefore it uses the [OpenLigaDb Api](https://github.com/OpenLigaDB/OpenLigaDB-Samples).
 
+<a href="https://apt.izzysoft.de/fdroid/index/apk/com.Ounzy.OpenBl"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height=80></a>
+
 ## Screenshots
 <div style="display: flex">
 <img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_Table.png" width="32%">
