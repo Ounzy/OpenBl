@@ -5,6 +5,7 @@ import android.content.Context.CONNECTIVITY_SERVICE
 import android.net.ConnectivityManager
 import android.os.Build
 import android.os.Bundle
+import android.util.Log
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
 import androidx.compose.foundation.layout.*
@@ -16,13 +17,18 @@ import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.sp
-import com.Ounzy.OpenBl.ui.components.PastGamesDays
-import com.Ounzy.OpenBl.ui.components.TableView
-import com.Ounzy.OpenBl.ui.theme.BLAppTheme
+import com.Ounzy.OpenBl.Bundesliga.ui.components.PastGamesDays
+import com.Ounzy.OpenBl.Bundesliga.ui.components.TableView
+import com.Ounzy.OpenBl.Bundesliga.ui.theme.BLAppTheme
+import com.Ounzy.OpenBl.NavigationBar.BottomNav
+import com.Ounzy.OpenBl.utils.KickerScraper
+import kotlin.concurrent.thread
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+
 
         setContent {
             BLAppTheme {
@@ -32,39 +38,7 @@ class MainActivity : ComponentActivity() {
 
 
                 if (connected) {
-                    var selected by remember {
-                        mutableStateOf(0)
-                    }
-                    Surface(
-                        modifier = Modifier.fillMaxSize(),
-                    ) {
-                        Column(
-                            modifier = Modifier.fillMaxSize()
-                        ) {
-                            TabRow(
-                                selectedTabIndex = selected,
-                            ) {
-                                Tab(
-                                    selected = selected == 0,
-                                    onClick = {
-                                        selected = 0
-                                    },
-                                    text = {
-                                        Text(text = "Table")
-                                    },
-                                )
-                                Tab(selected = selected == 1, onClick = {
-                                    selected = 1
-                                }, text = {
-                                    Text(text = "Matches")
-                                })
-                            }
-                            when (selected) {
-                                0 -> TableView()
-                                1 -> PastGamesDays()
-                            }
-                        }
-                    }
+                    BottomNav()
                 } else {
                     Surface() {
                         Column(

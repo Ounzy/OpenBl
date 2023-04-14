@@ -68,6 +68,8 @@ dependencies {
     implementation 'com.squareup.okhttp3:logging-interceptor:4.10.0'
     implementation "io.coil-kt:coil-compose:2.2.2"
     implementation "io.coil-kt:coil-svg:2.2.2"
+    implementation 'org.jsoup:jsoup:1.15.4'
+    implementation 'androidx.navigation:navigation-compose:2.5.3'
 
     testImplementation 'junit:junit:4.13.2'
     androidTestImplementation 'androidx.test.ext:junit:1.1.5'
