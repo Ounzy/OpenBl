@@ -57,7 +57,7 @@ fun BottomBar(navController: NavHostController) {
                 },
                 icon = {
                     Icon(
-                        modifier = Modifier.size(24.dp),
+                        modifier = Modifier.size(30.dp),
                         painter = painterResource(id = screen.icon),
                         contentDescription = null
                     )
@@ -83,7 +83,7 @@ fun AddItem(
 
     Box(
         modifier = Modifier
-            .height(40.dp)
+            .height(10.dp)
             .clip(CircleShape)
             .background(background)
             .clickable(onClick = {
@@ -101,14 +101,8 @@ fun AddItem(
         ) {
             Icon(painter = painterResource(id = screen.icon),
                 contentDescription = "icon",
-                tint = contentColor
+                tint = MaterialTheme.colorScheme.background
             )
-            AnimatedVisibility(visible = selected) {
-                Text(
-                    text = screen.title,
-                    color = contentColor
-                )
-            }
         }
     }
 }

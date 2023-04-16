@@ -14,13 +14,13 @@ sealed class BottomBarScreen(
     object Bundesliga: BottomBarScreen(
         route = "bundesliga",
         title = "Bundesliga",
-        icon = R.drawable.ic_launcher_foreground
+        icon = R.drawable.bundesliga_black
     )
 
     object Premierleague: BottomBarScreen(
         route = "premierleague",
         title = "Premier League",
-        icon = R.drawable.ic_launcher_foreground
+        icon = R.drawable.premier_league
     )
 
 //    object Bundesliga: BottomBarScreen(
