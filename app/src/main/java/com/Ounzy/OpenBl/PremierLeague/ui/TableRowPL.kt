@@ -1,4 +1,4 @@
-package com.Ounzy.OpenBl.Bundesliga.ui.components.Tables
+package com.Ounzy.OpenBl.PremierLeague.ui
 
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -11,12 +11,13 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import com.Ounzy.OpenBl.Bundesliga.objects.Table
 import com.Ounzy.OpenBl.Bundesliga.ui.components.RewrittenImage
-import com.example.OpenBl.ui.components.seasons.ShowDialogBL
+import com.Ounzy.OpenBl.utils.TableEntry
+
+
 
 @Composable
-fun TableRow(table: Table, index: Int) {
+fun TableRowPL(data: TableEntry) {
 
     var showsDialog by remember {
         mutableStateOf(false)
@@ -34,23 +35,23 @@ fun TableRow(table: Table, index: Int) {
             verticalAlignment = Alignment.CenterVertically,
         ) {
             Text(
-                text = "$index.",
+                text = "${data.ranking}.",
                 fontSize = 18.sp,
                 modifier = Modifier.width(30.dp)
             )
             RewrittenImage(
-                url = table.teamIconUrl,
+                url = data.iconUrl,
                 modifier = Modifier
                     .size(40.dp)
             )
             Spacer(modifier = Modifier.width(10.dp))
             Text(
-                text = table.teamName,
+                text = data.teamName,
                 fontSize = 18.sp,
                 modifier = Modifier,
             )
             Text(
-                table.points.toString(),
+                data.points.toString(),
                 modifier = Modifier.weight(1f),
                 color = MaterialTheme.colorScheme.primary,
                 fontSize = 18.sp,
@@ -59,7 +60,7 @@ fun TableRow(table: Table, index: Int) {
         }
     }
     if (showsDialog) {
-        ShowDialogBL(table = table, index = index) {
+        ShowDialogPL(data = data) {
             showsDialog = false
         }
     }
