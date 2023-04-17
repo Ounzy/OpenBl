@@ -1,10 +1,12 @@
-<div align="center">
-<img src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png" height=200 width=200>
+<div align="left">
+	
+<img width="" src="app/src/main/res/mipmap-xxxhdpi/ic_launcher.png"  width=160 height=160  align="center">
+
 </div>
 
 # OpenBl
-Android App showcasing the 1./2./3.Bundesliga (german soccer leagues) tables and results.    
-Therefore it uses the [OpenLigaDb Api](https://github.com/OpenLigaDB/OpenLigaDB-Samples).
+
+Android app that provides you with up-to-date information on the top three soccer leagues in Germany using the [OpenLigaDb API](https://github.com/OpenLigaDB/OpenLigaDB-Samples).
 
 <a href="https://apt.izzysoft.de/fdroid/index/apk/com.Ounzy.OpenBl"><img src="https://gitlab.com/IzzyOnDroid/repo/-/raw/master/assets/IzzyOnDroid.png" height=80></a>
 
