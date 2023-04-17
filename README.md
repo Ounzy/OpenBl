@@ -12,9 +12,9 @@ Android app that provides you with up-to-date information on the top three socce
 
 ## Screenshots
 <div style="display: flex">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_Table.png" width="32%">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2_ClubView.png" width="32%">
-<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_MatchDay.png" width="32%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/1_Table.jpg" width="32%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/2_ClubView.jpg" width="32%">
+<img src="fastlane/metadata/android/en-US/images/phoneScreenshots/3_MatchDay.jpg" width="32%">
 </div>
 
 ## License
