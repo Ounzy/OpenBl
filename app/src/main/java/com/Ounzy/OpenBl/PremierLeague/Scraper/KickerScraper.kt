@@ -11,6 +11,12 @@ data class TableEntry(
     var iconUrl: String = "",
     var playedGames: Int? = 0,
     var points: Int? = 0,
+    var wins: Int? = 0,
+    var draws: Int? = 0,
+    var loses: Int? = 0,
+    var goals: Int? = 0,
+    var opponentGoals: Int? = 0,
+    var goalDiff: Int? = 0,
 )
 
 object KickerScraper {
@@ -32,12 +38,23 @@ object KickerScraper {
             val games = gamesEl.text().split(" ")
             val points = pointsEl.text()
 
+            val goals = games.getOrNull(5)?.split(":")
+
+
+            Log.e("games", (games.getOrNull(3).orEmpty().trim()))
             entry.teamName = teamName
             entry.shortName = shortName
             entry.iconUrl = iconUrl
             entry.ranking = rank.trim().toIntOrNull() ?: 0
             entry.playedGames = games[0].toIntOrNull() ?:0
             entry.points = points.toIntOrNull() ?:0
+            entry.wins = games.getOrNull(2)?.toIntOrNull() ?:0
+            entry.draws = games.getOrNull(3)?.toIntOrNull() ?:0
+            entry.loses = games.getOrNull(4)?.toIntOrNull() ?:0
+            entry.goals = goals?.getOrNull(0)?.toIntOrNull() ?:0
+            entry.opponentGoals = goals?.getOrNull(1)?.toIntOrNull() ?:0
+            entry.goalDiff = games.getOrNull(6)?.toIntOrNull() ?:0
+
 
 
             entries.add(entry)

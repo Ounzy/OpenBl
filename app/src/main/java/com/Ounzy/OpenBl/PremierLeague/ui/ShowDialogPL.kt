@@ -89,6 +89,36 @@ fun ShowDialogPL(
                                     modifier = Modifier.padding(10.dp, 5.dp),
                                     color = MaterialTheme.colorScheme.primary
                                 )
+                                Text(
+                                    text = "Wins: " + data.wins,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Loses: " + data.loses,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Draws: " + data.draws,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Goaldiff: " + data.goalDiff,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "Goals: " + data.goals,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
+                                Text(
+                                    text = "OpponentGoals: " + data.opponentGoals,
+                                    modifier = Modifier.padding(10.dp, 5.dp),
+                                    color = MaterialTheme.colorScheme.primary
+                                )
                             }
                         }
                     }
