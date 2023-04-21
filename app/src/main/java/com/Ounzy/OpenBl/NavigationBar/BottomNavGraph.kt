@@ -5,6 +5,7 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import com.Ounzy.OpenBl.Bundesliga.ui.components.TabRow
+import com.Ounzy.OpenBl.PremierLeague.ui.Matches.TabRowPL
 import com.Ounzy.OpenBl.PremierLeague.ui.TablePremierLeague
 
 @Composable
@@ -16,7 +17,7 @@ fun BottomNavGraph(
             TabRow()
         }
         composable(route = BottomBarScreen.Premierleague.route) {
-            TablePremierLeague()
+            TabRowPL()
         }
     }
 }

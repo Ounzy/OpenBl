@@ -19,6 +19,11 @@ data class TableEntry(
     var goalDiff: Int? = 0,
 )
 
+data class MatchResultsKicker(
+    val teamName1: String,
+    val teamName2: String,
+)
+
 object KickerScraper {
     fun getNews(): List<TableEntry> {
         val entries = mutableListOf<TableEntry>()
@@ -55,12 +60,23 @@ object KickerScraper {
             entry.opponentGoals = goals?.getOrNull(1)?.toIntOrNull() ?:0
             entry.goalDiff = games.getOrNull(6)?.toIntOrNull() ?:0
 
-
-
             entries.add(entry)
         }
         entries.removeAt(0)
         return entries
     }
+
+    fun getDay(leagueURL: String): String? {
+
+        val doc = Jsoup.connect(leagueURL).get()
+        val dayDiv = doc.select(".kategorie-headline h1")
+        val dayHeadline = dayDiv.text()
+
+        return dayHeadline.filter { it.isDigit() }
+    }
+
+   // fun getMatchData(day: Int): List<MatchResultsKicker> {
+
+   // }
 }
 
