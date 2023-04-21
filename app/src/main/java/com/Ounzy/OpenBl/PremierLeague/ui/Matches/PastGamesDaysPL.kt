@@ -19,14 +19,15 @@ import kotlin.concurrent.thread
 fun PastGamesDaysPL() {
 
     val entries = (1 until 39).map { it.toString() }
+
     var selectedEntry by remember {
         mutableStateOf<String?>(null)
     }
-    var day by remember {
-        mutableStateOf<Int?>(null)
-    }
-    thread(start = true) {
-        selectedEntry = KickerScraper.getDay("https://www.fussballdaten.de/england/")
+
+    LaunchedEffect(Unit) {
+        thread(start = true) {
+            selectedEntry = KickerScraper.getDay("https://www.fussballdaten.de/england/")
+        }
     }
 
     Column(
@@ -40,7 +41,7 @@ fun PastGamesDaysPL() {
             }
         )
 
-        PastGamesViewPL(day)
+        PastGamesViewPL(selectedEntry?.toInt())
     }
 }
 

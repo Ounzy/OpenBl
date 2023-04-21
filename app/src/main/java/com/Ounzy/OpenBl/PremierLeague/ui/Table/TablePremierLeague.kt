@@ -17,8 +17,10 @@ fun TablePremierLeague() {
     var data by remember {
         mutableStateOf<List<TableEntry>>(listOf())
     }
-    thread(true) {
-        data = KickerScraper.getNews()
+    LaunchedEffect(Unit) {
+        thread(true) {
+            data = KickerScraper.getNews()
+        }
     }
 
     LazyColumn(
