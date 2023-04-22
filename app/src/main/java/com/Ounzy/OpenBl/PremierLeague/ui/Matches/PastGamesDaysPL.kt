@@ -40,8 +40,7 @@ fun PastGamesDaysPL() {
                 selectedEntry = it
             }
         )
-
-        PastGamesViewPL(selectedEntry?.toInt())
+        PastGamesViewPL("https://www.kicker.de/premier-league/spieltag/2022-23/${selectedEntry?.toInt()}")
     }
 }
 

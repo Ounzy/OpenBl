@@ -20,12 +20,17 @@ data class TableEntry(
 )
 
 data class MatchResultsKicker(
-    val teamName1: String,
-    val teamName2: String,
+    var teamName1: String = "",
+    var teamName2: String = "",
+    var teamIconURL1: String = "",
+    var teamIconURL2: String = "",
+    var teamScore1: String? = "",
+    var teamScore2: String? = "",
+
 )
 
 object KickerScraper {
-    fun getNews(): List<TableEntry> {
+    fun getTable(): List<TableEntry> {
         val entries = mutableListOf<TableEntry>()
         val doc = Jsoup.connect("https://www.kicker.de/premier-league/tabelle/2022-23/").get()
         val premierLeagueTable = doc.select(".kick__table.kick__table--ranking.kick__table--alternate.kick__table--resptabelle tbody tr")
@@ -75,8 +80,44 @@ object KickerScraper {
         return dayHeadline.filter { it.isDigit() }
     }
 
-   // fun getMatchData(day: Int): List<MatchResultsKicker> {
 
-   // }
+    fun getMatchData(URL: String): List<MatchResultsKicker> {
+
+       val matchResultsKickerList = mutableListOf<MatchResultsKicker>()
+
+       val doc = Jsoup.connect(URL).get()
+       val matchResultsContainerDIV = doc.select(".kick__site-padding .kick__v100-gameList__gameRow__gameCell")
+
+       for (div in matchResultsContainerDIV) {
+
+           val matchResults = MatchResultsKicker()
+
+           val teamNames = div.select(".kick__v100-gameCell__team__name")
+           val firstTeamName = teamNames.first()?.text().orEmpty()
+           val secondTeamName = teamNames.last()?.text().orEmpty()
+
+           val teamIcons = div.select(".kick__v100-gameCell__team__logo picture img")
+           val teamIcon1 = teamIcons.first()?.attr("data-src").toString()
+           val teamIcon2 = teamIcons.last()?.attr("data-src").toString()
+
+           val teamPoints = div.select(".kick__v100-scoreBoard__scoreHolder__score")
+           val teamPoints1 = teamPoints.first()?.text()
+           val teamPoints2 = teamPoints.getOrNull(1)?.text()
+
+
+
+           matchResults.teamName1 = firstTeamName
+           matchResults.teamName2 = secondTeamName
+
+           matchResults.teamIconURL1 = teamIcon1
+           matchResults.teamIconURL2 = teamIcon2
+
+           matchResults.teamScore1 = teamPoints1
+           matchResults.teamScore2 = teamPoints2
+
+           matchResultsKickerList.add(matchResults)
+       }
+       return matchResultsKickerList
+   }
 }
 

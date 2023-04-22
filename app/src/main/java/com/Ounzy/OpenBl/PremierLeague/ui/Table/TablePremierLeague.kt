@@ -19,7 +19,7 @@ fun TablePremierLeague() {
     }
     LaunchedEffect(Unit) {
         thread(true) {
-            data = KickerScraper.getNews()
+            data = KickerScraper.getTable()
         }
     }
 
