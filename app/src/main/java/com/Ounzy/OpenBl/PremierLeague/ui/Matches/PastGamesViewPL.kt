@@ -1,3 +1,4 @@
+import android.util.Log
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -37,6 +38,7 @@ fun PastGamesViewPL(URL: String) {
             matchData.addAll(KickerScraper.getMatchData(URL))
         }
     }
+
 
 
     if (matchData.isNotEmpty()) {

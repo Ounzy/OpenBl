@@ -21,12 +21,12 @@ fun PastGamesDaysPL() {
     val entries = (1 until 39).map { it.toString() }
 
     var selectedEntry by remember {
-        mutableStateOf<String?>(null)
+        mutableStateOf(entries.first())
     }
 
     LaunchedEffect(Unit) {
         thread(start = true) {
-            selectedEntry = KickerScraper.getDay("https://www.fussballdaten.de/england/")
+            selectedEntry = KickerScraper.getDay("https://www.fussballdaten.de/england/") ?: entries.first()
         }
     }
 
@@ -40,7 +40,7 @@ fun PastGamesDaysPL() {
                 selectedEntry = it
             }
         )
-        PastGamesViewPL("https://www.kicker.de/premier-league/spieltag/2022-23/${selectedEntry?.toInt()}")
+        PastGamesViewPL("https://www.kicker.de/premier-league/spieltag/2022-23/${selectedEntry.toInt()}")
     }
 }
 

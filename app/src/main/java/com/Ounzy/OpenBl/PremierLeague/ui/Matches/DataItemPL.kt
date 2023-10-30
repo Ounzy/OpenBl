@@ -85,9 +85,9 @@ fun DataItemPL(data: MatchResultsKicker) {
         }
     }
 
-    //if (showDetails) {
-    //    DetailsScreen(data = data) {
-    //        showDetails = false
-    //    }
-    //}
+    if (showDetails) {
+        DetailScreenPL(data = data) {
+            showDetails = false
+        }
+    }
 }
