@@ -1,7 +1,9 @@
 package com.Ounzy.OpenBl.utils
 
 import android.util.Log
+import org.jsoup.Connection
 import org.jsoup.Jsoup
+import org.jsoup.nodes.Document
 
 
 data class TableEntry(
@@ -37,10 +39,44 @@ data class MatchResultsData(
 )
 
 object KickerScraper {
+    // cookie must be passed to bypass bot detection
+    private var datadomeCookie: String? = null
+
+    private fun buildRequest(url: String): Connection {
+        var req = Jsoup.connect(url).header(
+            "User-Agent",
+            "Mozilla/5.0 (X11; Linux x86_64; rv:155.0) Gecko/20100101 Firefox/155.0"
+        ).header("Accept-Language", "en,de;q=0.9,en-US;q=0.8")
+
+        if (datadomeCookie != null) req = req.cookie("datadome", datadomeCookie!!)
+        return req
+    }
+
+    private fun fetchKicker(url: String): Document {
+        val req = buildRequest(url)
+
+        val resp = req.method(Connection.Method.GET)
+            .ignoreHttpErrors(true)
+            .execute()
+        if (resp.statusCode() != 200) {
+            // Kicker returns a "datadome" cookie that must be set in order to verify that this
+            // is a real browser. In theory the page also contains a CAPTCHA, but it doesn't
+            // seem like the CAPTCHA has to be solved.
+            datadomeCookie = resp.cookie("datadome")
+
+            // reload page with datadome cookie
+            val req = buildRequest(url)
+            return req.get()
+        } else {
+            return resp.parse()
+        }
+    }
+
     fun getTable(): List<TableEntry> {
         val entries = mutableListOf<TableEntry>()
-        val doc = Jsoup.connect("https://www.kicker.de/premier-league/tabelle/2023-24/").get()
-        val premierLeagueTable = doc.select(".kick__table.kick__table--ranking.kick__table--alternate.kick__table--resptabelle tbody tr")
+        val doc = fetchKicker("https://www.kicker.de/premier-league/tabelle")
+        val premierLeagueTable =
+            doc.select(".kick__table.kick__table--ranking.kick__table--alternate.kick__table--resptabelle tbody tr")
         for (td in premierLeagueTable) {
             val entry = TableEntry()
             val labelEl = td.select(".kick__table--ranking__teamname span")
@@ -62,14 +98,14 @@ object KickerScraper {
             entry.shortName = shortName
             entry.iconUrl = iconUrl
             entry.ranking = rank.trim().toIntOrNull() ?: 0
-            entry.playedGames = games[0].toIntOrNull() ?:0
-            entry.points = points.toIntOrNull() ?:0
-            entry.wins = games.getOrNull(2)?.toIntOrNull() ?:0
-            entry.draws = games.getOrNull(3)?.toIntOrNull() ?:0
-            entry.loses = games.getOrNull(4)?.toIntOrNull() ?:0
-            entry.goals = goals?.getOrNull(0)?.toIntOrNull() ?:0
-            entry.opponentGoals = goals?.getOrNull(1)?.toIntOrNull() ?:0
-            entry.goalDiff = games.getOrNull(6)?.toIntOrNull() ?:0
+            entry.playedGames = games[0].toIntOrNull() ?: 0
+            entry.points = points.toIntOrNull() ?: 0
+            entry.wins = games.getOrNull(2)?.toIntOrNull() ?: 0
+            entry.draws = games.getOrNull(3)?.toIntOrNull() ?: 0
+            entry.loses = games.getOrNull(4)?.toIntOrNull() ?: 0
+            entry.goals = goals?.getOrNull(0)?.toIntOrNull() ?: 0
+            entry.opponentGoals = goals?.getOrNull(1)?.toIntOrNull() ?: 0
+            entry.goalDiff = games.getOrNull(6)?.toIntOrNull() ?: 0
 
             entries.add(entry)
         }
@@ -77,70 +113,58 @@ object KickerScraper {
         return entries
     }
 
-    fun getDay(leagueURL: String): String? {
+    fun getMatchData(seasonAndMatchDay: String?): Triple<String, String, List<MatchResultsKicker>> {
+        val matchResultsKickerList = mutableListOf<MatchResultsKicker>()
 
-        val doc = Jsoup.connect(leagueURL).get()
-        val dayDiv = doc.select(".kategorie-headline h1")
-        val dayHeadline = dayDiv.text()
+        val doc =
+            fetchKicker(seasonAndMatchDay?.let { "https://www.kicker.de/premier-league/spieltag/$seasonAndMatchDay" }
+                ?: "https://www.kicker.de/premier-league/spieltag")
+        val matchResultsContainerDIV =
+            doc.select(".kick__site-padding .kick__v100-gameList__gameRow__gameCell")
 
-        return dayHeadline.filter { it.isDigit() }
+        for (div in matchResultsContainerDIV) {
+            val matchResults = MatchResultsKicker()
+
+            val teamNames = div.select(".kick__v100-gameCell__team__name")
+            val firstTeamName = teamNames.first()?.text().orEmpty()
+            val secondTeamName = teamNames.last()?.text().orEmpty()
+
+            val teamIcons = div.select(".kick__v100-gameCell__team__logo picture img")
+            val teamIcon1 = teamIcons.first()?.attr("data-src").toString()
+            val teamIcon2 = teamIcons.last()?.attr("data-src").toString()
+
+            val teamPoints = div.select(".kick__v100-scoreBoard__scoreHolder__score")
+            val teamPoints1 = teamPoints.first()?.text()
+            val teamPoints2 = teamPoints.getOrNull(1)?.text()
+
+            val matchResultsLinkContainer = div.select(".kick__v100-scoreBoard")
+            val matchResultsLink = matchResultsLinkContainer.attr("href")
+
+            matchResults.teamName1 = firstTeamName
+            matchResults.teamName2 = secondTeamName
+
+            matchResults.teamIconURL1 = teamIcon1
+            matchResults.teamIconURL2 = teamIcon2
+
+            matchResults.teamScore1 = teamPoints1
+            matchResults.teamScore2 = teamPoints2
+
+            matchResults.matchResultsLink = matchResultsLink
+
+            matchResultsKickerList.add(matchResults)
+        }
+        val dropdownValues = doc.select(".kick__head-dropdown").map { it.ownText() }
+        val season = dropdownValues.first { it.contains("/") }.replace("/", "-")
+        val matchDay = dropdownValues.first { it.contains(("Spieltag")) }.takeWhile { it.isDigit() }
+
+        return Triple(season, matchDay, matchResultsKickerList)
     }
 
-
-    fun getMatchData(URL: String): List<MatchResultsKicker> {
-
-       val matchResultsKickerList = mutableListOf<MatchResultsKicker>()
-
-       val doc = Jsoup.connect(URL).get()
-       val matchResultsContainerDIV = doc.select(".kick__site-padding .kick__v100-gameList__gameRow__gameCell")
-
-       for (div in matchResultsContainerDIV) {
-
-           val matchResults = MatchResultsKicker()
-
-           val teamNames = div.select(".kick__v100-gameCell__team__name")
-           val firstTeamName = teamNames.first()?.text().orEmpty()
-           val secondTeamName = teamNames.last()?.text().orEmpty()
-
-           val teamIcons = div.select(".kick__v100-gameCell__team__logo picture img")
-           val teamIcon1 = teamIcons.first()?.attr("data-src").toString()
-           val teamIcon2 = teamIcons.last()?.attr("data-src").toString()
-
-           val teamPoints = div.select(".kick__v100-scoreBoard__scoreHolder__score")
-           val teamPoints1 = teamPoints.first()?.text()
-           val teamPoints2 = teamPoints.getOrNull(1)?.text()
-
-           val matchResultsLinkContainer = div.select(".kick__v100-scoreBoard")
-           val matchResultsLink = matchResultsLinkContainer.attr("href").toString()
-
-
-
-
-           matchResults.teamName1 = firstTeamName
-           matchResults.teamName2 = secondTeamName
-
-           matchResults.teamIconURL1 = teamIcon1
-           matchResults.teamIconURL2 = teamIcon2
-
-           matchResults.teamScore1 = teamPoints1
-           matchResults.teamScore2 = teamPoints2
-
-           matchResults.matchResultsLink = matchResultsLink
-
-
-           matchResultsKickerList.add(matchResults)
-       }
-       return matchResultsKickerList
-   }
-
-    fun getMatchResultsData(URL: String): List<MatchResultsData> {
-
-
+    fun getMatchResultsData(path: String): List<MatchResultsData> {
         val matchResultsDataList = mutableListOf<MatchResultsData>()
 
-        val doc = Jsoup.connect("https://www.kicker.de$URL").get()
+        val doc = fetchKicker("https://www.kicker.de$path")
         val matchResultsDataContainer = doc.select(".kick__goals__row")
-
 
         for (div in matchResultsDataContainer) {
 
@@ -151,7 +175,6 @@ object KickerScraper {
 
             val scorerTeam2 = div.select(".kick__goals__team--right").text().toString()
             val scoreTimeTeam2 = div.select(".kick__goals__time--right").text().toString()
-
 
             matchResultsData.scorerTeam1 = scorerTeam1
             matchResultsData.scoreTimeTeam1 = scoreTimeTeam1
@@ -164,6 +187,4 @@ object KickerScraper {
 
         return matchResultsDataList
     }
-
 }
-

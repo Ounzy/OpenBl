@@ -1,6 +1,7 @@
 package com.Ounzy.OpenBl.PremierLeague.ui.Matches
 
 import PastGamesViewPL
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -13,20 +14,33 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import com.Ounzy.OpenBl.utils.KickerScraper
+import com.Ounzy.OpenBl.utils.MatchResultsKicker
 import kotlin.concurrent.thread
 
 @Composable
 fun PastGamesDaysPL() {
+    val matchDays = (1..38).map { it.toString() }
 
-    val entries = (1 until 39).map { it.toString() }
-
-    var selectedEntry by remember {
-        mutableStateOf(entries.first())
+    var selectedMatchDay by remember {
+        mutableStateOf<String?>(null)
     }
 
-    LaunchedEffect(Unit) {
+    val matchData = remember {
+        mutableStateListOf<MatchResultsKicker>()
+    }
+
+    var currentSeason: String? = remember { null }
+
+    LaunchedEffect(selectedMatchDay) {
         thread(start = true) {
-            selectedEntry = KickerScraper.getDay("https://www.fussballdaten.de/england/") ?: entries.first()
+            matchData.clear()
+
+            val seasonAndMatchDay = selectedMatchDay?.let { matchDay -> "$currentSeason/$matchDay" }
+            val (season, day, data) = KickerScraper.getMatchData(seasonAndMatchDay)
+
+            currentSeason = season
+            selectedMatchDay = day
+            matchData.addAll(data)
         }
     }
 
@@ -34,13 +48,13 @@ fun PastGamesDaysPL() {
         modifier = Modifier.fillMaxSize()
     ) {
         SampleSpinner(
-            entries,
-            selected = selectedEntry ?: entries.first(),
+            matchDays,
+            selected = selectedMatchDay ?: matchDays.first(),
             onSelectionChanged = {
-                selectedEntry = it
+                selectedMatchDay = it
             }
         )
-        PastGamesViewPL("https://www.kicker.de/premier-league/spieltag/2022-23/${selectedEntry.toInt()}")
+        PastGamesViewPL(matchData)
     }
 }
 
