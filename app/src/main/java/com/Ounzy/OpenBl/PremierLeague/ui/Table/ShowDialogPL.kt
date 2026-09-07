@@ -12,7 +12,6 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
-import com.Ounzy.OpenBl.Bundesliga.objects.Table
 import com.Ounzy.OpenBl.Bundesliga.ui.components.RewrittenImage
 import com.Ounzy.OpenBl.utils.TableEntry
 
