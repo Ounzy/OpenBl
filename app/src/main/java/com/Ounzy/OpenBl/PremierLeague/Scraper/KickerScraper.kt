@@ -1,5 +1,6 @@
 package com.Ounzy.OpenBl.utils
 
+import android.util.Log
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -91,7 +92,7 @@ object KickerScraper {
             val pointsEl = td.select(".kick__table--ranking__master")
             val teamName = labelEl.text().split(" ", limit = 2).last()
             val shortName = labelEl.text().split(" ", limit = 2).first()
-            val iconUrl = iconEl.attr("data-src")
+            val iconUrl = iconEl.attr("src")
             val rank = rankEl.text()
             val games = gamesEl.text().split(" ")
             val points = pointsEl.text()
@@ -135,8 +136,8 @@ object KickerScraper {
             val secondTeamName = teamNames.last()?.text().orEmpty()
 
             val teamIcons = div.select(".kick__v100-gameCell__team__logo picture img")
-            val teamIcon1 = teamIcons.first()?.attr("data-src").toString()
-            val teamIcon2 = teamIcons.last()?.attr("data-src").toString()
+            val teamIcon1 = teamIcons.first()?.attr("src").toString()
+            val teamIcon2 = teamIcons.last()?.attr("src").toString()
 
             val teamPoints = div.select(".kick__v100-scoreBoard__scoreHolder__score")
             val teamPoints1 = teamPoints.first()?.text()
