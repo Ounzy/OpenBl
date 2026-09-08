@@ -19,5 +19,5 @@ data class MatchDataItem(
     val numberOfViewers: Long?,
     val team1: Team,
     val team2: Team,
-    val timeZoneID: String,
+    val timeZoneID: String?,
 )
