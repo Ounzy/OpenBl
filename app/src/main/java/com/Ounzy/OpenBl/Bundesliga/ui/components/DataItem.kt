@@ -17,6 +17,7 @@ import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.Ounzy.OpenBl.Bundesliga.objects.Goal
 import com.Ounzy.OpenBl.Bundesliga.objects.MatchDataItem
+import com.Ounzy.OpenBl.FullscreenDialog
 
 
 @Composable
@@ -98,9 +99,8 @@ fun DetailsScreen(
     onDismissRequest: () -> Unit
 ) {
     if (data.matchIsFinished) {
-        Dialog(
+        FullscreenDialog(
             onDismissRequest = onDismissRequest,
-            properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Scaffold(
                 topBar = {
@@ -243,9 +243,8 @@ fun DetailsScreen(
 
         }
     } else {
-        Dialog(
+        FullscreenDialog(
             onDismissRequest = onDismissRequest,
-            properties = DialogProperties(usePlatformDefaultWidth = false)
         ) {
             Scaffold(
                 topBar = {

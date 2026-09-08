@@ -13,6 +13,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import com.Ounzy.OpenBl.Bundesliga.ui.components.RewrittenImage
+import com.Ounzy.OpenBl.FullscreenDialog
 import com.Ounzy.OpenBl.utils.TableEntry
 
 @OptIn(ExperimentalMaterial3Api::class)
@@ -21,9 +22,8 @@ fun ShowDialogPL(
     data: TableEntry,
     onDismissRequest: () -> Unit,
 ) {
-    Dialog(
+    FullscreenDialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Scaffold(
             topBar = {

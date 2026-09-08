@@ -30,6 +30,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
+import com.Ounzy.OpenBl.FullscreenDialog
 import com.Ounzy.OpenBl.utils.KickerScraper
 import com.Ounzy.OpenBl.utils.MatchEvent
 import com.Ounzy.OpenBl.utils.MatchResultsKicker
@@ -51,9 +52,8 @@ fun DetailScreenPL(
         }
     }
 
-    Dialog(
+    FullscreenDialog(
         onDismissRequest = onDismissRequest,
-        properties = DialogProperties(usePlatformDefaultWidth = false)
     ) {
         Scaffold(
             topBar = {
