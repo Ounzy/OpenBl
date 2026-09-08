@@ -44,6 +44,8 @@ data class MatchEvent(
     var time: String = ""
 )
 
+const val USER_AGENT = "Mozilla/5.0 (X11; Linux x86_64; rv:155.0) Gecko/20100101 Firefox/155.0"
+
 object KickerScraper {
     // cookie must be passed to bypass bot detection
     private var datadomeCookie: String? = null
@@ -51,7 +53,7 @@ object KickerScraper {
     private fun buildRequest(url: String): Connection {
         var req = Jsoup.connect(url).header(
             "User-Agent",
-            "Mozilla/5.0 (X11; Linux x86_64; rv:155.0) Gecko/20100101 Firefox/155.0"
+            USER_AGENT
         ).header("Accept-Language", "en,de;q=0.9,en-US;q=0.8")
 
         if (datadomeCookie != null) req = req.cookie("datadome", datadomeCookie!!)

@@ -12,7 +12,7 @@ import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.Ounzy.OpenBl.Bundesliga.objects.Table
-import com.Ounzy.OpenBl.Bundesliga.ui.components.RewrittenImage
+import com.Ounzy.OpenBl.Bundesliga.ui.components.ClubImage
 import com.example.OpenBl.ui.components.seasons.ShowDialogBL
 
 @Composable
@@ -38,7 +38,7 @@ fun TableRow(table: Table, index: Int) {
                 fontSize = 18.sp,
                 modifier = Modifier.width(30.dp)
             )
-            RewrittenImage(
+            ClubImage(
                 url = table.teamIconUrl,
                 modifier = Modifier
                     .size(40.dp)

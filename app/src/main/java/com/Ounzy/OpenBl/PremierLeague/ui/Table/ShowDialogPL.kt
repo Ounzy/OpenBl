@@ -10,9 +10,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
-import com.Ounzy.OpenBl.Bundesliga.ui.components.RewrittenImage
+import com.Ounzy.OpenBl.Bundesliga.ui.components.ClubImage
 import com.Ounzy.OpenBl.FullscreenDialog
 import com.Ounzy.OpenBl.utils.TableEntry
 
@@ -52,7 +50,7 @@ fun ShowDialogPL(
                         fontSize = 30.sp,
                     )
 
-                    RewrittenImage(
+                    ClubImage(
                         url = data.iconUrl,
                         modifier = Modifier
                             .size(350.dp)

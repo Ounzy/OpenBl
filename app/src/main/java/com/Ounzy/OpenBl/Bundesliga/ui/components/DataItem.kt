@@ -13,8 +13,6 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.compose.ui.window.Dialog
-import androidx.compose.ui.window.DialogProperties
 import com.Ounzy.OpenBl.Bundesliga.objects.Goal
 import com.Ounzy.OpenBl.Bundesliga.objects.MatchDataItem
 import com.Ounzy.OpenBl.FullscreenDialog
@@ -22,7 +20,6 @@ import com.Ounzy.OpenBl.FullscreenDialog
 
 @Composable
 fun DataItem(data: MatchDataItem) {
-
     var showDetails by remember {
         mutableStateOf(false)
     }
@@ -167,11 +164,11 @@ fun DetailsScreen(
                         }
                         Text(text = data.matchDateTime)
                         Row() {
-                            RewrittenImage(
+                            ClubImage(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team1.teamIconUrl
                             )
-                            RewrittenImage(
+                            ClubImage(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team2.teamIconUrl
                             )
@@ -313,11 +310,11 @@ fun DetailsScreen(
                             horizontalArrangement = Arrangement.Center,
                             modifier = Modifier.fillMaxWidth()
                         ) {
-                            RewrittenImage(
+                            ClubImage(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team1.teamIconUrl
                             )
-                            RewrittenImage(
+                            ClubImage(
                                 modifier = Modifier.size(175.dp),
                                 url = data.team2.teamIconUrl
                             )
