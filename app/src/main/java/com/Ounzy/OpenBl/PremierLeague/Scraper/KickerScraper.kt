@@ -1,6 +1,5 @@
 package com.Ounzy.OpenBl.utils
 
-import android.util.Log
 import org.jsoup.Connection
 import org.jsoup.Jsoup
 import org.jsoup.nodes.Document
@@ -31,11 +30,17 @@ data class MatchResultsKicker(
     var matchResultsLink: String? = "",
 )
 
-data class MatchResultsData(
-    var scorerTeam1: String = "",
-    var scoreTimeTeam1: String = "",
-    var scorerTeam2: String = "",
-    var scoreTimeTeam2: String = "",
+enum class ScorerTeam {
+    Team1,
+    Team2
+}
+
+data class MatchEvent(
+    var scorerTeam: ScorerTeam = ScorerTeam.Team1,
+    var newScore: String = "",
+    var scorer: String = "",
+    var assist: String = "",
+    var time: String = ""
 )
 
 object KickerScraper {
@@ -138,7 +143,8 @@ object KickerScraper {
             val teamPoints2 = teamPoints.getOrNull(1)?.text()
 
             val matchResultsLinkContainer = div.select(".kick__v100-scoreBoard")
-            val matchResultsLink = matchResultsLinkContainer.attr("href")
+            val matchResultsLink =
+                matchResultsLinkContainer.attr("href").replace("/spielbericht", "/schema")
 
             matchResults.teamName1 = firstTeamName
             matchResults.teamName2 = secondTeamName
@@ -160,27 +166,22 @@ object KickerScraper {
         return Triple(season, matchDay, matchResultsKickerList)
     }
 
-    fun getMatchResultsData(path: String): List<MatchResultsData> {
-        val matchResultsDataList = mutableListOf<MatchResultsData>()
+    fun getMatchResultsData(matchName: String): List<MatchEvent> {
+        val matchResultsDataList = mutableListOf<MatchEvent>()
 
-        val doc = fetchKicker("https://www.kicker.de$path")
+        val doc = fetchKicker("https://www.kicker.de$matchName/ticker")
         val matchResultsDataContainer = doc.select(".kick__goals__row")
 
         for (div in matchResultsDataContainer) {
+            val matchResultsData = MatchEvent()
 
-            val matchResultsData = MatchResultsData()
-
-            val scorerTeam1 = div.select(".kick__goals__team--left").text().toString()
-            val scoreTimeTeam1 = div.select(".kick__goals__time--left").text().toString()
-
-            val scorerTeam2 = div.select(".kick__goals__team--right").text().toString()
-            val scoreTimeTeam2 = div.select(".kick__goals__time--right").text().toString()
-
-            matchResultsData.scorerTeam1 = scorerTeam1
-            matchResultsData.scoreTimeTeam1 = scoreTimeTeam1
-
-            matchResultsData.scorerTeam2 = scorerTeam2
-            matchResultsData.scoreTimeTeam2 = scoreTimeTeam2
+            matchResultsData.scorer = div.select(".kick__goals__player").first()?.child(0)?.text().orEmpty()
+            matchResultsData.time = div.select(".kick__goals__time").text()
+            matchResultsData.assist = div.select(".kick__assist__player").text()
+            matchResultsData.newScore = div.select(".kick__v100-scoreBoard__scoreHolder").text()
+            matchResultsData.scorerTeam = if (div.select(".kick__goals__time--left")
+                    .isNotEmpty()
+            ) ScorerTeam.Team1 else ScorerTeam.Team2
 
             matchResultsDataList.add(matchResultsData)
         }
